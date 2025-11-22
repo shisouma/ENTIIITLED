@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENTIIITLED — Indie Creative House</title>
+  <style>
+    :root {
+      --ink: #050505;
+      --slate: #0c0e13;
+      --slate-2: #12151c;
+      --gold: #c9a646;
+      --gold-soft: rgba(201, 166, 70, 0.6);
+      --lava: #a32718;
+      --ember: #f0542e;
+      --text: #e6e6e6;
+      --muted: #a3a5ad;
+      --glow: 0 0 25px rgba(201, 166, 70, 0.25);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 20%, rgba(160, 46, 28, 0.15), transparent 40%),
+                  radial-gradient(circle at 80% 10%, rgba(201, 166, 70, 0.12), transparent 45%),
+                  linear-gradient(135deg, #030304, #0a0b10 45%, #0d0f15);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 100% 6px, 6px 100%;
+      mix-blend-mode: soft-light;
+      opacity: 0.3;
+      z-index: 1;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      position: relative;
+      isolation: isolate;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(7, 7, 9, 0.7);
+      border-bottom: 1px solid rgba(201, 166, 70, 0.12);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-family: 'Oswald', 'Impact', 'Anton', 'Arial Narrow', sans-serif;
+      letter-spacing: 0.28em;
+      font-size: 1rem;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .logo::after {
+      content: '';
+      display: inline-block;
+      width: 42px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: translateY(-1px);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--gold);
+      color: var(--text);
+      background: rgba(15, 14, 20, 0.7);
+      padding: 0.6rem 1.2rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: inset 0 0 0 0 rgba(201, 166, 70, 0.25);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(201, 166, 70, 0.2), rgba(201, 166, 70, 0.05));
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(201, 166, 70, 0.25);
+      color: #fff7e6;
+    }
+
+    main { position: relative; z-index: 2; }
+
+    .hero {
+      position: relative;
+      min-height: 88vh;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(201, 166, 70, 0.12);
+      background: radial-gradient(circle at 50% 50%, rgba(160, 46, 28, 0.14), transparent 55%);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35), rgba(0,0,0,0.65));
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(240, 84, 46, 0.2), transparent 55%),
+                  linear-gradient(120deg, rgba(10, 10, 12, 0.85), rgba(12, 13, 18, 0.95)),
+                  linear-gradient(60deg, rgba(201, 166, 70, 0.12), rgba(10, 10, 12, 0.6));
+      filter: brightness(0.9) saturate(1.05);
+      overflow: hidden;
+    }
+
+    .hero-video::after {
+      content: ' ';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10,10,12,0.35), rgba(0,0,0,0.55));
+      mix-blend-mode: multiply;
+    }
+
+    .placeholder-clip {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(240, 84, 46, 0.18), transparent 36%),
+        radial-gradient(ellipse at 70% 30%, rgba(201, 166, 70, 0.16), transparent 30%),
+        linear-gradient(120deg, rgba(20, 22, 28, 0.9), rgba(10, 9, 10, 0.9));
+      animation: drift 14s ease-in-out infinite alternate;
+      opacity: 0.8;
+    }
+
+    .smoke {
+      position: absolute;
+      inset: -10%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 32%),
+        radial-gradient(circle at 60% 40%, rgba(255,255,255,0.04), transparent 28%),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.05), transparent 30%);
+      filter: blur(60px);
+      opacity: 0.6;
+      transform: translate3d(0,0,0);
+      animation: smokeFloat 22s ease-in-out infinite;
+      mix-blend-mode: screen;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 6rem 1.5rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      position: relative;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 34px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+      display: inline-block;
+    }
+
+    h1 {
+      font-family: 'Oswald', 'Impact', 'Anton', 'Arial Narrow', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-size: clamp(2.6rem, 6vw, 4.6rem);
+      margin: 0.6rem 0 0.2rem;
+      position: relative;
+      color: #f7f2e5;
+      text-shadow: 0 0 18px rgba(201, 166, 70, 0.35);
+    }
+
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      overflow: hidden;
+      color: #f7f2e5;
+      clip: rect(0, 999px, 0, 0);
+      opacity: 0;
+    }
+
+    .glitch::before {
+      animation: glitchBefore 1.2s steps(2, end);
+      color: rgba(201, 166, 70, 0.95);
+    }
+
+    .glitch::after {
+      animation: glitchAfter 1.2s steps(2, end);
+      color: rgba(240, 84, 46, 0.9);
+    }
+
+    .manifesto {
+      margin: 1rem 0 2rem;
+      display: grid;
+      gap: 0.35rem;
+      font-size: 1.05rem;
+      color: #d8d8e0;
+      line-height: 1.5;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .meta {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+      border-bottom: 1px solid rgba(201, 166, 70, 0.12);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-family: 'Oswald', 'Impact', 'Anton', 'Arial Narrow', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 26px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .pillar {
+      background: linear-gradient(145deg, rgba(14, 15, 20, 0.9), rgba(10, 10, 12, 0.85));
+      border: 1px solid rgba(201, 166, 70, 0.16);
+      padding: 1.4rem;
+      border-radius: 14px;
+      box-shadow: var(--glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(201,166,70,0.1), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .pillar:hover::after { opacity: 1; }
+
+    .pillar h3 {
+      margin: 0 0 0.4rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 1rem;
+    }
+
+    .pillar p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      position: relative;
+      background: linear-gradient(150deg, rgba(14, 14, 18, 0.95), rgba(12, 12, 16, 0.9));
+      border: 1px solid rgba(201, 166, 70, 0.18);
+      border-radius: 16px;
+      padding: 1.2rem;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      min-height: 180px;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(201, 166, 70, 0.55);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35), 0 0 22px rgba(201,166,70,0.22);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(201,166,70,0.18), transparent 40%),
+                  radial-gradient(circle at 80% 20%, rgba(240,84,46,0.12), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .card:hover::before { opacity: 0.8; }
+
+    .card h4 {
+      margin: 0 0 0.4rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+    }
+
+    .blink {
+      animation: blink 1.6s ease-in-out infinite;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-head h4 {
+      margin: 0;
+    }
+
+    .card p {
+      margin: 0 0 0.6rem;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(201, 166, 70, 0.3);
+      color: #f6e8c8;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tag.premium {
+      position: relative;
+      background: linear-gradient(120deg, rgba(201, 166, 70, 0.12), rgba(240, 84, 46, 0.08));
+      box-shadow: 0 0 12px rgba(201, 166, 70, 0.18);
+      padding-left: 1.2rem;
+    }
+
+    .tag.premium::before {
+      content: '';
+      position: absolute;
+      left: 0.55rem;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f6e8c8, rgba(201, 166, 70, 0.4));
+      transform: translateY(-50%);
+      box-shadow: 0 0 10px rgba(201, 166, 70, 0.45);
+    }
+
+    .cta-bar {
+      margin-top: 0.4rem;
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .cta-bar .link {
+      font-size: 0.85rem;
+      color: #f6e8c8;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .cta-strip {
+      background: linear-gradient(120deg, rgba(201, 166, 70, 0.08), rgba(10, 10, 12, 0.92));
+      border: 1px solid rgba(201, 166, 70, 0.18);
+      border-radius: 16px;
+      padding: 1.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: var(--glow);
+    }
+
+    .cta-strip h3 {
+      margin: 0;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'Oswald', 'Impact', 'Anton', 'Arial Narrow', sans-serif;
+    }
+
+    .canvas-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      mix-blend-mode: soft-light;
+      opacity: 0.35;
+    }
+
+    .shimmer {
+      mix-blend-mode: screen;
+      opacity: 0.12;
+    }
+
+    .footer {
+      padding: 2rem 1.5rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @keyframes glitchBefore {
+      0% { clip: rect(0, 999px, 0, 0); opacity: 0; }
+      10% { clip: rect(6px, 999px, 60px, 0); opacity: 0.9; }
+      20% { clip: rect(30px, 999px, 66px, 0); opacity: 0.5; }
+      30% { clip: rect(10px, 999px, 40px, 0); opacity: 0.8; }
+      40%, 100% { clip: rect(0, 999px, 0, 0); opacity: 0; }
+    }
+
+    @keyframes glitchAfter {
+      0% { clip: rect(0, 999px, 0, 0); opacity: 0; }
+      8% { clip: rect(24px, 999px, 70px, 0); opacity: 0.6; }
+      16% { clip: rect(2px, 999px, 30px, 0); opacity: 0.7; }
+      24% { clip: rect(40px, 999px, 90px, 0); opacity: 0.5; }
+      32%, 100% { clip: rect(0, 999px, 0, 0); opacity: 0; }
+    }
+
+    @keyframes smokeFloat {
+      from { transform: translate3d(-2%, -1%, 0) scale(1); }
+      to { transform: translate3d(3%, 2%, 0) scale(1.04); }
+    }
+
+    @keyframes drift {
+      from { transform: translate3d(-2%, -2%, 0) scale(1.05); }
+      to { transform: translate3d(2%, 2%, 0) scale(1.08); }
+    }
+
+    @keyframes blink {
+      0%, 60%, 100% { opacity: 1; }
+      70%, 90% { opacity: 0.25; }
+    }
+
+    @media (max-width: 900px) {
+      .hero-content { grid-template-columns: 1fr; padding-top: 5rem; }
+      header { top: 0; }
+    }
+
+    @media (max-width: 640px) {
+      .nav { padding: 0.9rem 1rem; }
+      .logo { letter-spacing: 0.16em; font-size: 0.9rem; }
+      h1 { letter-spacing: 0.18em; }
+      .section-title { font-size: 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition: none !important; }
+      .canvas-overlay { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="scanlines" class="canvas-overlay"></canvas>
+  <canvas id="shimmer" class="canvas-overlay shimmer"></canvas>
+
+  <div class="page">
+    <header>
+      <nav class="nav">
+        <div class="logo" aria-label="ENTIIITLED mark">ENTIIITLED</div>
+        <div class="nav-actions">
+          <a class="btn" href="#projects">Explore Projects</a>
+          <a class="btn primary" href="#contact">Book Session</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-label="Hero">
+        <div class="hero-video">
+          <div class="placeholder-clip" aria-hidden="true"></div>
+          <div class="smoke" id="smoke"></div>
+        </div>
+        <div class="hero-content">
+          <div>
+            <div class="eyebrow">Classified // Rebel Luxury</div>
+            <h1 class="glitch" data-text="ENTIIITLED">ENTIIITLED</h1>
+            <div class="manifesto">
+              <span>we're building the new underground.</span>
+              <span>the studio where sound, film, and stories collide.</span>
+              <span>cinematic, molten, fiercely independent.</span>
+            </div>
+            <div class="cta-row">
+              <a class="btn primary" href="#projects">Explore Projects</a>
+              <a class="btn" href="#contact">Book a Session</a>
+            </div>
+            <div class="meta">
+              <span>Sound / Film / Culture</span>
+              <span>Dark Futurism // Lava + Gold</span>
+              <span>Movement, not a service menu</span>
+            </div>
+          </div>
+          <div>
+            <div class="pillar" style="height:100%;">
+              <h3>Creative Identity</h3>
+              <p>Molten-lava energy wrapped in rebel luxury. Classified-file glitch, gold-lined edges, and a cinematic hush before impact.</p>
+              <p style="margin-top:0.8rem;">Primary Actions: Explore Projects. Book a Session. Everything else is ambience.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" aria-labelledby="about-title">
+        <div class="section-head">
+          <div class="section-title" id="about-title">About // Mission</div>
+          <div class="tag">Movement</div>
+        </div>
+        <div class="pillar" style="margin-bottom:1.4rem;">
+          <h3>Manifesto</h3>
+          <p>ENTIIITLED is an indie creative house shaping sound, film, and culture. A cinematic lab where underground stories are scored in gold light and lava haze.</p>
+        </div>
+        <div class="pillars">
+          <div class="pillar">
+            <h3>Sound</h3>
+            <p>Albums that feel like midnight transmissions. DJ sets that fracture the room then stitch it back in gold.</p>
+          </div>
+          <div class="pillar">
+            <h3>Film</h3>
+            <p>Indie frames with high-drama polish. Smoke, grain, and a lens that listens as hard as it looks.</p>
+          </div>
+          <div class="pillar">
+            <h3>Culture</h3>
+            <p>We cultivate scenes. VR happenings, visual work, and lore-forward drops that keep the signal alive.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" aria-labelledby="projects-title">
+        <div class="section-head">
+          <div class="section-title" id="projects-title">Projects // Catalogue</div>
+          <div class="cta-bar">
+            <a class="btn" href="#contact">Book Session</a>
+            <span class="tag">Explore</span>
+          </div>
+        </div>
+        <div class="grid">
+          <a class="card" href="#after-hours">
+            <h4>After Hours Film</h4>
+            <p>Neo-noir fever dream. Asphalt rain, gold glints, bass like a heartbeat.</p>
+            <span class="tag">Film</span>
+          </a>
+          <a class="card" href="#echolastria">
+            <h4>Echolastria</h4>
+            <p>Cathedral echoes over glitch beats. A hymn to the machine dusk.</p>
+            <span class="tag">Album</span>
+          </a>
+          <a class="card" href="#i-i-i">
+            <h4 class="blink">I-I-I</h4>
+            <p>Three-part sonic triptych. Pulse, fracture, resolve.</p>
+            <span class="tag">EP</span>
+          </a>
+          <a class="card" href="projects/trio-lore.html">
+            <h4>Trio Lore</h4>
+            <p>Dedicated route. Lore-soaked narrative thread across sound + film.</p>
+            <span class="tag">Route</span>
+          </a>
+          <a class="card" href="#echo-prism">
+            <h4>Echo Prism</h4>
+            <p>Prismatic synthscapes with lava-red undertones.</p>
+            <span class="tag">Project</span>
+          </a>
+          <a class="card" href="#cipher-flux">
+            <h4>Cipher Flux</h4>
+            <p>Encrypted club cuts for the new underground.</p>
+            <span class="tag">Project</span>
+          </a>
+          <a class="card" href="#rhythm-ash">
+            <h4>Rhythm Ash</h4>
+            <p>Smoke-thick rhythms and gold-lined percussion.</p>
+            <span class="tag">Project</span>
+          </a>
+        </div>
+      </section>
+
+      <section id="services" aria-labelledby="services-title">
+        <div class="section-head">
+          <div class="section-title" id="services-title">Services // Bookings</div>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <div class="card-head">
+              <h4>Music Production</h4>
+              <span class="tag premium">Premium</span>
+            </div>
+            <p>Cinematic sound design, album production, and underground-grade mixes.</p>
+            <div class="cta-bar">
+              <span class="link">Book Session →</span>
+            </div>
+          </div>
+          <div class="card">
+            <h4>DJ Sets</h4>
+            <p>Glitch-wrapped club architecture. Gold flashpoints, lava undertow.</p>
+            <div class="cta-bar">
+              <span class="link">Request Date →</span>
+            </div>
+          </div>
+          <div class="card">
+            <h4>VR Events</h4>
+            <p>Immersive scenes with smoke, scanlines, and cinematic lore drops.</p>
+            <div class="cta-bar">
+              <span class="link">Design a World →</span>
+            </div>
+          </div>
+          <div class="card">
+            <h4>Visual Work</h4>
+            <p>Motion design, visualizers, and filmic branding in molten gold + slate.</p>
+            <div class="cta-bar">
+              <span class="link">Showreel Inquiry →</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" aria-labelledby="contact-title">
+        <div class="cta-strip">
+          <div>
+            <div class="section-title" id="contact-title">Book a Session</div>
+            <p style="margin:0.4rem 0 0; color: var(--muted);">Drop us a signal. We’ll reply with a cinematic deck and next steps.</p>
+          </div>
+          <div class="cta-row">
+            <a class="btn primary" href="mailto:hello@entiiitled.studio">Email</a>
+            <a class="btn" href="#projects">Explore Projects</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>ENTIIITLED — An indie creative house shaping sound, film, and culture.</div>
+      <div style="margin-top:0.4rem;">Molten lava + gold accents. Something big is coming.</div>
+    </footer>
+  </div>
+
+  <script>
+    const scan = document.getElementById('scanlines');
+    const shimmer = document.getElementById('shimmer');
+    const resizeCanvas = () => {
+      [scan, shimmer].forEach(c => {
+        c.width = window.innerWidth;
+        c.height = window.innerHeight;
+      });
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Scanlines
+    const drawScan = () => {
+      const ctx = scan.getContext('2d');
+      ctx.clearRect(0, 0, scan.width, scan.height);
+      ctx.fillStyle = 'rgba(255,255,255,0.04)';
+      for (let y = 0; y < scan.height; y += 4) {
+        ctx.fillRect(0, y, scan.width, 1);
+      }
+    };
+    drawScan();
+
+    // Shimmer glitch accents
+    const shCtx = shimmer.getContext('2d');
+    function drawShimmer() {
+      shCtx.clearRect(0, 0, shimmer.width, shimmer.height);
+      for (let i = 0; i < 12; i++) {
+        const y = Math.random() * shimmer.height;
+        const w = Math.random() * 200 + 60;
+        const h = Math.random() * 2 + 1;
+        const x = Math.random() * shimmer.width;
+        shCtx.fillStyle = `rgba(201,166,70, ${Math.random() * 0.15})`;
+        shCtx.fillRect(x, y, w, h);
+      }
+      requestAnimationFrame(drawShimmer);
+    }
+    drawShimmer();
+
+    // Parallax smoke
+    const smoke = document.getElementById('smoke');
+    const parallax = (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 6;
+      const y = (e.clientY / window.innerHeight - 0.5) * 6;
+      smoke.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1.04)`;
+    };
+    window.addEventListener('pointermove', parallax);
+    window.addEventListener('deviceorientation', (e) => {
+      const x = (e.gamma || 0) * 0.15;
+      const y = (e.beta || 0) * 0.1;
+      smoke.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1.04)`;
+    });
+  </script>
+</body>
+</html>
